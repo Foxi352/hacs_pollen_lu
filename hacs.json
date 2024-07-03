@@ -1,7 +1,6 @@
 {
-    "name": "My Integration",
-    "content_in_root": false,
-    "domains": ["sensor"],
-    "country": ["EN", "DE", "FR"]
+    "name": "Pollen.lu",
+    "render_readme": true,
+    "homeassistant": "2023.1.0"
   }
   
