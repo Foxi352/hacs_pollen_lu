@@ -1,0 +1,16 @@
+{
+    "title": "Pollen.lu info",
+    "description": "Intégration pour récupérer des données d'une API HTTPS.",
+    "config": {
+      "step": {
+        "user": {
+          "title": "Configurer Mon Intégration",
+          "description": "Définir l'intervalle de sondage pour récupérer les données.",
+          "data": {
+            "scan_interval": "Intervalle de sondage (secondes)"
+          }
+        }
+      }
+    }
+  }
+  

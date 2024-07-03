@@ -1,0 +1,7 @@
+{
+    "name": "My Integration",
+    "content_in_root": false,
+    "domains": ["sensor"],
+    "country": ["EN", "DE", "FR"]
+  }
+  

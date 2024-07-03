@@ -1,0 +1,15 @@
+{
+  "title": "Pollen.lu info",
+  "description": "Integration zum Abrufen von Daten von einer HTTPS-API.",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Meine Integration konfigurieren",
+        "description": "Legen Sie das Abrufintervall für das Abrufen von Daten fest.",
+        "data": {
+          "scan_interval": "Abrufintervall (Sekunden)"
+        }
+      }
+    }
+  }
+}
