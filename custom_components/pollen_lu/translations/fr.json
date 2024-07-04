@@ -1,16 +1,25 @@
 {
-    "title": "Pollen.lu info",
-    "description": "Pollen.lu comptage des pollen.",
-    "config": {
-      "step": {
-        "user": {
-          "title": "Configurer Pollen.lu",
-          "description": "Définir l'intervalle de récupération de données.",
-          "data": {
-            "scan_interval": "Intervalle de sondage (minutes)"
-          }
+  "config": {
+    "step": {
+      "user": {
+        "description": "Configurer l'intégration Pollen.lu",
+        "data": {
+          "name": "Nom de l'instance d'intégration"
+        }
+      }
+    },
+    "error": {},
+    "abort": {}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options Pollen.lu",
+        "description": "Configurer les options de Pollen.lu",
+        "data": {
+          "scan_interval": "Intervalle de sondage de l'API en minutes"
         }
       }
     }
   }
-  
+}

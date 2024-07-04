@@ -58,9 +58,9 @@ class MyCoordinator(DataUpdateCoordinator):
         self.last_poll = None
         self.next_poll = None
 
-        scan_interval = entry.options.get(CONF_SCAN_INTERVAL, entry.data.get(CONF_SCAN_INTERVAL, 10800))
-        update_interval = timedelta(seconds=scan_interval)
-        _LOGGER.info(f"Polling pollen.lu API every {update_interval.total_seconds()} seconds")
+        scan_interval = entry.options.get(CONF_SCAN_INTERVAL, entry.data.get(CONF_SCAN_INTERVAL, 60))
+        update_interval = timedelta(minutes=scan_interval)
+        _LOGGER.info(f"Polling pollen.lu API every {scan_interval} minutes")
 
         super().__init__(
             hass,

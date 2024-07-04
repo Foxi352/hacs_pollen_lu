@@ -1,18 +1,25 @@
 {
-  "title": "Pollen.lu info",
-  "description": "Pollen.lu pollen count sensors",
   "config": {
     "step": {
       "user": {
-        "title": "Configure Pollen.lu",
-        "description": "Set the polling interval for fetching data.",
+        "description": "Set up Pollen.lu integration",
         "data": {
-          "scan_interval": "Polling Interval (minutes)"
+          "name": "Name of the integration instance"
         }
       }
     },
-    "error": {
-      "invalid_interval": "Invalid interval. Please enter a number."
+    "error": {},
+    "abort": {}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pollen.lu Options",
+        "description": "Set up Pollen.lu options",
+        "data": {
+          "scan_interval": "API polling interval in minutes"
+        }
+      }
     }
   }
 }

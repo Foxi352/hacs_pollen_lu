@@ -1,13 +1,23 @@
 {
-  "title": "Pollen.lu info",
-  "description": "Pollen.lu aktuelle Pollen Zählungen",
   "config": {
     "step": {
       "user": {
-        "title": "Pollen.lu konfigurieren",
-        "description": "Legen Sie das Abrufintervall fest.",
+        "description": "Richten Sie die Pollen.lu Integration ein",
         "data": {
-          "scan_interval": "Abrufintervall (Minuten)"
+          "name": "Name der Integrationsinstanz"
+        }
+      }
+    },
+    "error": {},
+    "abort": {}
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pollen.lu Optionen",
+        "description": "Pollen.lu Optionen ändern",
+        "data": {
+          "scan_interval": "API-Abfrageintervall in Minuten"
         }
       }
     }

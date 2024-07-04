@@ -1,30 +1,41 @@
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.const import CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_SCAN_INTERVAL, CONF_NAME
 from homeassistant.core import callback
-from .const import DOMAIN
+from .const import (
+    DOMAIN,
+    DEFAULT_SCAN_INTERVAL
+)
+
+DEFAULT_CONF_NAME = "Pollen.lu"
 
 class PollenLuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for My Integration."""
+    """Handle a config flow for Pollen LU."""
 
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self):
         """Initialize the config flow."""
-        self._scan_interval = 10800
+        self._scan_interval = 60
         self._errors = {}
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
         if user_input is not None:
-            return self.async_create_entry(title="Pollen Lu", data=user_input)
+            await self.async_set_unique_id(user_input[CONF_NAME])
+            self._abort_if_unique_id_configured()
+            return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({
-                vol.Required(CONF_SCAN_INTERVAL, default=self._scan_interval): int,
+                vol.Required(
+                    CONF_NAME, 
+                    default=DEFAULT_CONF_NAME
+                    ): str
             }),
             errors=self._errors,
+            description_placeholders={"description": "Set the polling interval for fetching data."},
         )
 
     async def async_step_import(self, user_input=None):
@@ -32,7 +43,7 @@ class PollenLuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return await self.async_step_user(user_input)
 
     @staticmethod
-    @callback
+    #@callback
     def async_get_options_flow(config_entry):
         return PollenLuOptionsFlowHandler(config_entry)
 
@@ -50,6 +61,10 @@ class PollenLuOptionsFlowHandler(config_entries.OptionsFlow):
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema({
-                vol.Required(CONF_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_SCAN_INTERVAL, 10800)): int
-            })
+                vol.Required(
+                    CONF_SCAN_INTERVAL, 
+                    default=self.config_entry.options.get(CONF_SCAN_INTERVAL, 
+                    DEFAULT_SCAN_INTERVAL)
+                    ): int
+            }),
         )
