@@ -53,7 +53,12 @@ class PollenSensor(CoordinatorEntity, SensorEntity):
         """Return the state of the sensor."""
         pollen = next((item for item in self.coordinator.pollen if item["translationKey"] == self.entity_type and item["active"]), None)
         if pollen is not None:
-            return round(pollen.get("value"))
+            level = pollen.get("level","")
+            if level != "undetected":
+                value = round(pollen.get("value"))
+            else:
+                value = 0
+            return value
         else:
             return -1
 

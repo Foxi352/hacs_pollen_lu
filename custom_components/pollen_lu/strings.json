@@ -1,16 +1,18 @@
 {
-    "title": "Pollen.lu info",
-    "description": "Integration for fetching data from an HTTPS API.",
-    "config": {
-      "step": {
-        "user": {
-          "title": "Configure My Integration",
-          "description": "Set the polling interval for fetching data.",
-          "data": {
-            "scan_interval": "Polling Interval (seconds)"
-          }
+  "title": "Pollen.lu info",
+  "description": "Pollen.lu pollen count sensors",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Pollen.lu",
+        "description": "Set the polling interval for fetching data.",
+        "data": {
+          "scan_interval": "Polling Interval (minutes)"
         }
       }
+    },
+    "error": {
+      "invalid_interval": "Invalid interval. Please enter a number."
     }
   }
-  
+}
