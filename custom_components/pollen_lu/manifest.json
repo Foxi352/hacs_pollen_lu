@@ -9,6 +9,8 @@
     "requirements": [],
     "iot_class": "cloud_polling",
     "translations": ["en", "de", "fr"],
-    "config_flow": true
+    "config_flow": true,
+    "integration_type": "service",
+    "after_dependencies": ["http", "network"]
   }
   

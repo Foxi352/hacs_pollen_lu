@@ -13,6 +13,7 @@ class PollenLuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Pollen LU."""
 
     VERSION = 2
+    MINOR_VERSION = 1
 
     def __init__(self):
         """Initialize the config flow."""
