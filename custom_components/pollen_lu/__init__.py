@@ -4,7 +4,7 @@ from datetime import timedelta, datetime
 import logging
 import aiohttp
 
-from .const import DOMAIN
+from .const import DOMAIN, API_URL
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -92,14 +92,14 @@ class MyCoordinator(DataUpdateCoordinator):
         }
         _LOGGER.debug("Fetching translation and pollen data from API")
         try:
-            async with self.session.get("https://pollen-api.chl.lu/api/translations", headers=headers) as response:
+            async with self.session.get(f"{API_URL}/translations", headers=headers) as response:
                 self.translations = await response.json()
                 self.translations = self.translations["data"]
                 _LOGGER.debug("Translations fetched")
         except Exception as err:
             _LOGGER.error(f"Error fetching translations: {err}")
         try:
-            async with self.session.get("https://pollen-api.chl.lu/api/pollens", headers=headers) as response:
+            async with self.session.get(f"{API_URL}/pollens", headers=headers) as response:
                 self.pollen = await response.json()
                 self.pollen = self.pollen["data"]
                 self.last_poll = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S")
