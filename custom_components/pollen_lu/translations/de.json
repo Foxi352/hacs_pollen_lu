@@ -23,5 +23,15 @@
         }
       }
     }
+  },
+  "services": {
+    "force_poll": {
+      "description": "Sofortiges Abrufen der Pollen.lu API erzwingen.",
+      "fields": {
+        "none": {
+          "description": "Für diesen Dienst sind keine Felder erforderlich."
+        }
+      }
+    }
   }
 }

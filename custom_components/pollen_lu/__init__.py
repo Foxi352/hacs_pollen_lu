@@ -11,6 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup(hass, config):
     """Set up the integration."""
     _LOGGER.debug("async_setup()")
+
     return True
 
 async def async_setup_entry(hass, entry):
@@ -27,6 +28,11 @@ async def async_setup_entry(hass, entry):
     # Ensure we add the update listener only once
     if not entry.update_listeners:
         entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+        
+    # Register the force_poll service if not already registered
+    if not hass.services.has_service(DOMAIN, 'force_poll'):
+        hass.services.async_register(DOMAIN, 'force_poll', coordinator.force_poll)
+
     return True
 
 async def async_unload_entry(hass, entry):
@@ -101,3 +107,8 @@ class MyCoordinator(DataUpdateCoordinator):
                 _LOGGER.debug("Pollen fetched")
         except Exception as err:
             raise UpdateFailed(f"Error fetching data: {err}")
+
+    async def force_poll(self, call):
+        """Handle the service call to force poll the API."""
+        _LOGGER.info("Force poll service called")
+        await self.async_request_refresh()

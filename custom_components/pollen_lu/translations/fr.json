@@ -23,5 +23,15 @@
         }
       }
     }
+  },
+  "services": {
+    "force_poll": {
+      "description": "Forcer l'interrogation de l'API Pollen.lu immédiatement.",
+      "fields": {
+        "none": {
+          "description": "Aucun champ requis pour ce service."
+        }
+      }
+    }
   }
 }

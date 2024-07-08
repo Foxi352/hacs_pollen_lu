@@ -2,7 +2,6 @@
 
 This component adds actual pollen count from [pollen.lu](https://www.chl.lu/fr/app-pollen) mobile app to Home Assistant.
 
-
 A current count is provided every 3 hours for the following grass and tree pollen:
 
  Latin      | English       | Deutsch           | Français
@@ -39,7 +38,9 @@ In case you would like to install manually:
 
    [![](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=pollen_lu)
 
+## Configuration
 
+After adding the integration, you can configure the polling interval via the integration options.
 
 ## Sensors
 
@@ -66,3 +67,29 @@ entity_picture      | https://pollen-api.chl.lu/pictures/aulne.svg  | URL
 friendly_name       | Pollen Erle         | Localized friendly name
 
 The friendly name and the description are both localized to the Home Assistant system language. Available are english, german and french.
+
+## Services
+
+### `pollen_lu.force_poll`
+
+This service forces the integration to poll the Pollen.lu API immediately.
+
+**Example usage:**
+
+1. Go to Developer Tools -> Services.
+2. Select `pollen_lu.force_poll` from the dropdown.
+3. Click "Call Service" to force a poll.
+
+### Example Automation
+
+You can create an automation to call the `force_poll` service, for example, every day at a specific time:
+
+```yaml
+automation:
+  - alias: Daily Force Poll Pollen Data
+    trigger:
+      platform: time
+      at: '08:00:00'
+    action:
+      service: pollen_lu.force_poll
+```

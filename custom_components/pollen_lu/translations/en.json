@@ -23,5 +23,15 @@
         }
       }
     }
+  },
+  "services": {
+    "force_poll": {
+      "description": "Force poll the Pollen.lu API immediately.",
+      "fields": {
+        "none": {
+          "description": "No fields required for this service."
+        }
+      }
+    }
   }
 }
