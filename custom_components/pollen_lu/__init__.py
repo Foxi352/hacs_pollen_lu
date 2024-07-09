@@ -1,5 +1,7 @@
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.const import CONF_SCAN_INTERVAL
+from homeassistant.core import ServiceCall, SupportsResponse
+
 from datetime import timedelta, datetime
 import logging
 import aiohttp
@@ -8,13 +10,13 @@ from .const import DOMAIN, API_URL
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup(hass, config):
+async def async_setup(hass, config) -> bool:
     """Set up the integration."""
     _LOGGER.debug("async_setup()")
 
     return True
 
-async def async_setup_entry(hass, entry):
+async def async_setup_entry(hass, entry) -> bool:
     """Set up the integration from a config entry."""
     _LOGGER.debug("async_setup_entry()")
     session = aiohttp.ClientSession()
@@ -29,9 +31,17 @@ async def async_setup_entry(hass, entry):
     if not entry.update_listeners:
         entry.async_on_unload(entry.add_update_listener(async_reload_entry))
         
+    # Launche the force_poll service call
+    async def handle_force_poll_service(call: ServiceCall) -> dict:
+        """Handle the force_poll service call."""
+        success = await coordinator.async_force_poll()
+        _LOGGER.debug(f"Force poll result: {success}")
+        hass.states.async_set("pollen_lu.force_poll", success)
+        return success
+        
     # Register the force_poll service if not already registered
     if not hass.services.has_service(DOMAIN, 'force_poll'):
-        hass.services.async_register(DOMAIN, 'force_poll', coordinator.force_poll)
+        hass.services.async_register(DOMAIN, 'force_poll', handle_force_poll_service,supports_response=SupportsResponse.ONLY)
 
     return True
 
@@ -91,6 +101,7 @@ class MyCoordinator(DataUpdateCoordinator):
             "Connection": "keep-alive",
         }
         _LOGGER.debug("Fetching translation and pollen data from API")
+        success = True
         try:
             async with self.session.get(f"{API_URL}/translations", headers=headers) as response:
                 self.translations = await response.json()
@@ -98,6 +109,8 @@ class MyCoordinator(DataUpdateCoordinator):
                 _LOGGER.debug("Translations fetched")
         except Exception as err:
             _LOGGER.error(f"Error fetching translations: {err}")
+            success = False
+            raise UpdateFailed(f"Error fetching data: {err}")
         try:
             async with self.session.get(f"{API_URL}/pollens", headers=headers) as response:
                 self.pollen = await response.json()
@@ -106,9 +119,15 @@ class MyCoordinator(DataUpdateCoordinator):
                 self.next_poll = (datetime.now().astimezone() + self.update_interval).strftime("%Y-%m-%d %H:%M:%S")
                 _LOGGER.debug("Pollen fetched")
         except Exception as err:
+            _LOGGER.error(f"Error fetching translations: {err}")
+            success = False
             raise UpdateFailed(f"Error fetching data: {err}")
+            
+        return {"success": success}
 
-    async def force_poll(self, call):
+    async def async_force_poll(self) -> dict:
         """Handle the service call to force poll the API."""
         _LOGGER.info("Force poll service called")
-        await self.async_request_refresh()
+        # success = await self.async_request_refresh()
+        success = await self._async_update_data()
+        return success
