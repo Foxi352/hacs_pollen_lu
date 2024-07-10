@@ -110,7 +110,7 @@ class MyCoordinator(DataUpdateCoordinator):
         except Exception as err:
             _LOGGER.error(f"Error fetching translations: {err}")
             success = False
-            raise UpdateFailed(f"Error fetching data: {err}")
+            raise UpdateFailed(f"Error fetching translations: {err}")
         try:
             async with self.session.get(f"{API_URL}/pollens", headers=headers) as response:
                 self.pollen = await response.json()
@@ -119,15 +119,14 @@ class MyCoordinator(DataUpdateCoordinator):
                 self.next_poll = (datetime.now().astimezone() + self.update_interval).strftime("%Y-%m-%d %H:%M:%S")
                 _LOGGER.debug("Pollen fetched")
         except Exception as err:
-            _LOGGER.error(f"Error fetching translations: {err}")
+            _LOGGER.error(f"Error fetching pollen counts: {err}")
             success = False
-            raise UpdateFailed(f"Error fetching data: {err}")
+            raise UpdateFailed(f"Error fetching pollen counts: {err}")
             
         return {"success": success}
 
     async def async_force_poll(self) -> dict:
         """Handle the service call to force poll the API."""
-        _LOGGER.info("Force poll service called")
-        # success = await self.async_request_refresh()
+        _LOGGER.debug("Force poll service called")
         success = await self._async_update_data()
         return success
