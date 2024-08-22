@@ -68,21 +68,21 @@ friendly_name       | Pollen Erle         | Localized friendly name
 
 The friendly name and the description are both localized to the Home Assistant system language. Available are english, german and french.
 
-## Services
+## Actions
 
 ### `pollen_lu.force_poll`
 
-This service forces the integration to poll the Pollen.lu API immediately.
+This action forces the integration to poll the Pollen.lu API immediately.
 
 **Example usage:**
 
-1. Go to Developer Tools -> Services.
+1. Go to Developer Tools -> Actions.
 2. Select `pollen_lu.force_poll` from the dropdown.
-3. Click "Call Service" to force a poll.
+3. Click "Call Action" to force a poll.
 
 ### Example Automation
 
-You can create an automation to call the `force_poll` service, for example, every day at a specific time:
+You can create an automation to run the `force_poll` action, for example, every day at a specific time:
 
 ```yaml
 automation:
@@ -91,5 +91,5 @@ automation:
       platform: time
       at: '08:00:00'
     action:
-      service: pollen_lu.force_poll
+      action: pollen_lu.force_poll
 ```

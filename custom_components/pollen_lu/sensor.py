@@ -8,6 +8,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the sensor platform."""
+    _LOGGER.debug("async_setup_entry()")
     coordinator = hass.data[DOMAIN][entry.entry_id]
     # Wait for the initial data fetching to complete
     while coordinator.pollen is None or coordinator.translations is None:

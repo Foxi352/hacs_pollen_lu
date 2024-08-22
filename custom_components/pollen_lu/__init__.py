@@ -1,10 +1,10 @@
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import ServiceCall, SupportsResponse
 
 from datetime import timedelta, datetime
 import logging
-import aiohttp
 
 from .const import DOMAIN, API_URL
 
@@ -19,7 +19,7 @@ async def async_setup(hass, config) -> bool:
 async def async_setup_entry(hass, entry) -> bool:
     """Set up the integration from a config entry."""
     _LOGGER.debug("async_setup_entry()")
-    session = aiohttp.ClientSession()
+    session = async_get_clientsession(hass)
     coordinator = MyCoordinator(hass, entry, session)
     await coordinator.async_config_entry_first_refresh()
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
@@ -73,21 +73,7 @@ class MyCoordinator(DataUpdateCoordinator):
         self.pollen = None
         self.last_poll = None
         self.next_poll = None
-
-        scan_interval = entry.options.get(CONF_SCAN_INTERVAL, entry.data.get(CONF_SCAN_INTERVAL, 60))
-        update_interval = timedelta(minutes=scan_interval)
-        _LOGGER.info(f"Polling pollen.lu API every {scan_interval} minutes")
-
-        super().__init__(
-            hass,
-            _LOGGER,
-            name=DOMAIN,
-            update_interval=update_interval,
-        )
- 
-    async def _async_update_data(self):
-        """Fetch data from API endpoint."""
-        headers = {
+        self.headers = {
             "Host": "pollen-api.chl.lu",
             "Accept": "*/*",
             "Content-Type": "application/json",
@@ -100,19 +86,36 @@ class MyCoordinator(DataUpdateCoordinator):
             "Sec-Fetch-Dest": "empty",
             "Connection": "keep-alive",
         }
-        _LOGGER.debug("Fetching translation and pollen data from API")
-        success = True
+
+        scan_interval = entry.options.get(CONF_SCAN_INTERVAL, entry.data.get(CONF_SCAN_INTERVAL, 60))
+        update_interval = timedelta(minutes=scan_interval)
+        _LOGGER.info(f"Polling pollen.lu API every {scan_interval} minutes")
+
+        super().__init__(
+            hass,
+            _LOGGER,
+            name=DOMAIN,
+            update_interval=update_interval,
+        )
+ 
+    async def _async_setup(self) -> None:
+        """Fetch translations from API endpoint."""
+        _LOGGER.debug("_async_setup()")
         try:
-            async with self.session.get(f"{API_URL}/translations", headers=headers) as response:
+            async with self.session.get(f"{API_URL}/translations", headers=self.headers) as response:
                 self.translations = await response.json()
                 self.translations = self.translations["data"]
                 _LOGGER.debug("Translations fetched")
         except Exception as err:
             _LOGGER.error(f"Error fetching translations: {err}")
-            success = False
-            raise UpdateFailed(f"Error fetching translations: {err}")
+            raise UpdateFailed(f"Error fetching translations: {err}") from err
+
+    async def _async_update_data(self):
+        """Fetch data from API endpoint."""
+        _LOGGER.debug("_async_update_data()")
+        success = True
         try:
-            async with self.session.get(f"{API_URL}/pollens", headers=headers) as response:
+            async with self.session.get(f"{API_URL}/pollens", headers=self.headers) as response:
                 self.pollen = await response.json()
                 self.pollen = self.pollen["data"]
                 self.last_poll = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S")
@@ -126,7 +129,7 @@ class MyCoordinator(DataUpdateCoordinator):
         return {"success": success}
 
     async def async_force_poll(self) -> dict:
-        """Handle the service call to force poll the API."""
-        _LOGGER.debug("Force poll service called")
+        """Handle the action call to force poll the API."""
+        _LOGGER.info("Force poll action called")
         success = await self._async_update_data()
         return success
