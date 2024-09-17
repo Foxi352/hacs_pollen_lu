@@ -26,6 +26,7 @@
   },
   "services": {
     "force_poll": {
+      "name": "Force poll the API",
       "description": "Force poll the Pollen.lu API immediately.",
       "fields": {
         "none": {

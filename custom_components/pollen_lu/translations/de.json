@@ -26,6 +26,7 @@
   },
   "services": {
     "force_poll": {
+      "name": "Sofortiges Abrufen der API",
       "description": "Sofortiges Abrufen der Pollen.lu API erzwingen.",
       "fields": {
         "none": {

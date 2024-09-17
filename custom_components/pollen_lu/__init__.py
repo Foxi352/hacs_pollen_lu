@@ -2,13 +2,14 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import ServiceCall, SupportsResponse
+from homeassistant.helpers import config_validation as cv
 
 from datetime import timedelta, datetime
 import logging
 
 from .const import DOMAIN, API_URL
 
-_LOGGER = logging.getLogger(__name__)
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 async def async_setup(hass, config: dict) -> bool:
     """Set up the integration."""

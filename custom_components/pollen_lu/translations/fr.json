@@ -26,6 +26,7 @@
   },
   "services": {
     "force_poll": {
+      "name": "Forcer l'interrogation de l'API",
       "description": "Forcer l'interrogation de l'API Pollen.lu immédiatement.",
       "fields": {
         "none": {
