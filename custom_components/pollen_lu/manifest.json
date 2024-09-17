@@ -1,15 +1,14 @@
 {
-    "domain": "pollen_lu",
-    "name": "Pollen.lu",
-    "version": "1.0.6",
-    "documentation": "https://github.com/Foxi352/hacs_pollen_lu",
-    "issue_tracker": "https://github.com/Foxi352/hacs_pollen_lu/issues",
-    "dependencies": [],
-    "codeowners": ["@Foxi352"],
-    "requirements": [],
-    "iot_class": "cloud_polling",
-    "config_flow": true,
-    "integration_type": "service",
-    "after_dependencies": ["http", "network"]
-  }
-  
+  "domain": "pollen_lu",
+  "name": "Pollen.lu",
+  "after_dependencies": ["http", "network"],
+  "codeowners": ["@Foxi352"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Foxi352/hacs_pollen_lu",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/Foxi352/hacs_pollen_lu/issues",
+  "requirements": [],
+  "version": "1.0.6"
+}
