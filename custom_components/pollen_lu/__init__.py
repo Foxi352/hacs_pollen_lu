@@ -9,6 +9,7 @@ import logging
 
 from .const import DOMAIN, API_URL
 
+_LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 async def async_setup(hass, config: dict) -> bool:
