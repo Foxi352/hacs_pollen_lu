@@ -29,6 +29,7 @@
       "description": "Sofortiges Abrufen der Pollen.lu API erzwingen.",
       "fields": {
         "none": {
+          "name": "Keine Felder",
           "description": "Für diesen Dienst sind keine Felder erforderlich."
         }
       }

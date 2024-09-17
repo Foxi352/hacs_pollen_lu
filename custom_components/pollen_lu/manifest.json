@@ -1,9 +1,8 @@
 {
     "domain": "pollen_lu",
     "name": "Pollen.lu",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "documentation": "https://github.com/Foxi352/hacs_pollen_lu",
-    "issues": "https://github.com/Foxi352/hacs_pollen_lu/issues",
     "dependencies": [],
     "codeowners": ["@Foxi352"],
     "requirements": [],

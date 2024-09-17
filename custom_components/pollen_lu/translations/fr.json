@@ -29,6 +29,7 @@
       "description": "Forcer l'interrogation de l'API Pollen.lu immédiatement.",
       "fields": {
         "none": {
+          "name": "Pas de champs",
           "description": "Aucun champ requis pour ce service."
         }
       }

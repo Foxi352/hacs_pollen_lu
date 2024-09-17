@@ -10,7 +10,7 @@ from .const import DOMAIN, API_URL
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup(hass, config) -> bool:
+async def async_setup(hass, config: dict) -> bool:
     """Set up the integration."""
     _LOGGER.debug("async_setup()")
 

@@ -3,4 +3,5 @@ force_poll:
   description: "[%key:component.pollen_lu.services.force_poll.description%]"
   fields:
     none:
+      name: "No fields"
       description: "[%key:component.pollen_lu.services.force_poll.fields.none.description%]"
